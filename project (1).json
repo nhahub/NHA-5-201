@@ -1,0 +1,1163 @@
+{
+  "name": "project",
+  "nodes": [
+    {
+      "parameters": {
+        "updates": [
+          "message",
+          "callback_query"
+        ],
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        -2880,
+        -464
+      ],
+      "id": "73280d53-e474-4c4d-beec-3c2603f6c266",
+      "name": "Telegram Trigger",
+      "webhookId": "a80d1270-9cda-4160-85a8-cbccac69d64a",
+      "credentials": {
+        "telegramApi": {
+          "id": "FqS3NOckwMrJSV8b",
+          "name": "Telegram account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json.message?.chat.id ?? $json.callback_query.message.chat.id }}",
+        "text": "welcome to DR.Mohamed clinic",
+        "replyMarkup": "inlineKeyboard",
+        "inlineKeyboard": {
+          "rows": [
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "📅 Book an appointment",
+                    "additionalFields": {
+                      "callback_data": "menu:book"
+                    }
+                  },
+                  {
+                    "text": "❓ Inquiry",
+                    "additionalFields": {
+                      "callback_data": "menu:inquiry"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        -1584,
+        576
+      ],
+      "id": "13b37b64-e1a5-4f68-90c6-547fa2bc5f3d",
+      "name": "Send a text message",
+      "webhookId": "01f88992-b075-4c59-9ea9-19614e1fde1c",
+      "credentials": {
+        "telegramApi": {
+          "id": "FqS3NOckwMrJSV8b",
+          "name": "Telegram account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "27fc12f7-c7fb-4970-8f09-ffc9b0e3f7f9",
+                    "leftValue": "={{ $json.callback_query.data }}",
+                    "rightValue": "menu:book",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "a63d87e9-9bb4-4243-8668-595f122a7bb2",
+                    "leftValue": "={{ $json.callback_query.data }}",
+                    "rightValue": "menu:inquiry",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "48988d23-00c1-4b2f-b3c1-0efccf8053f5",
+                    "leftValue": "={{ $json.callback_query?.data }}",
+                    "rightValue": "date",
+                    "operator": {
+                      "type": "string",
+                      "operation": "startsWith"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "a3534672-9e0c-44a5-bcd8-368fe326ba94",
+                    "leftValue": "={{ $json.callback_query?.data }}",
+                    "rightValue": "slot:",
+                    "operator": {
+                      "type": "string",
+                      "operation": "startsWith"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "80f9772d-b513-4d15-8a02-e5fcd5efc418",
+                    "leftValue": "={{ $json.message?.reply_to_message?.text }}",
+                    "rightValue": "اخترت الموعد",
+                    "operator": {
+                      "type": "string",
+                      "operation": "contains"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "96d48a38-1a52-4875-8ef5-8e768a675e7e",
+                    "leftValue": "={{ $json.callback_query?.data }}",
+                    "rightValue": "confirm",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "2d2ba7d8-0788-4a12-b86d-b44111904e66",
+                    "leftValue": "={{ $json.callback_query?.data }}",
+                    "rightValue": "inq:address",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "c883586a-ad78-443b-aac9-1d732bd7ed5a",
+                    "leftValue": "={{ $json.callback_query?.data }}",
+                    "rightValue": "inq:price",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "38915b85-67da-489c-be50-de88a2deb94d",
+                    "leftValue": "={{ $json.callback_query?.data }}",
+                    "rightValue": "inq:hours",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "ae8c6609-e952-4932-b1e7-fb1c125fca90",
+                    "leftValue": "={{ $json.callback_query?.data }}",
+                    "rightValue": "menu:main",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {
+          "fallbackOutput": "extra"
+        }
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        -2560,
+        -608
+      ],
+      "id": "c43d4a8b-31e6-4701-b39d-625526344ef5",
+      "name": "Switch1"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Telegram Trigger').item.json.callback_query.from.id }}",
+        "text": "Which day would you like to book for?",
+        "replyMarkup": "inlineKeyboard",
+        "inlineKeyboard": {
+          "rows": [
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "={{ $json.days[0].label }}",
+                    "additionalFields": {
+                      "callback_data": "={{ $json.days[0].data }}"
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "={{ $json.days[1].label }}",
+                    "additionalFields": {
+                      "callback_data": "={{ $json.days[1].data }}"
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "={{ $json.days[2].label }}",
+                    "additionalFields": {
+                      "callback_data": "={{ $json.days[2].data }}"
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "={{ $json.days[3].label }}",
+                    "additionalFields": {
+                      "callback_data": "={{ $json.days[3].data }}"
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "={{ $json.days[4].label }}",
+                    "additionalFields": {
+                      "callback_data": "={{ $json.days[4].data }}"
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "={{ $json.days[5].label }}",
+                    "additionalFields": {
+                      "callback_data": "={{ $json.days[5].data }}"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        -1328,
+        -896
+      ],
+      "id": "e4c5bb73-efab-4b9c-a8cd-8194fe8c709b",
+      "name": "Send a text message1",
+      "webhookId": "970a738c-6403-4a84-8f87-9c4e11ab3a84",
+      "credentials": {
+        "telegramApi": {
+          "id": "FqS3NOckwMrJSV8b",
+          "name": "Telegram account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Telegram Trigger').item.json.callback_query.from.id }}",
+        "text": "What would you like to inquire about?",
+        "replyMarkup": "inlineKeyboard",
+        "inlineKeyboard": {
+          "rows": [
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "\t📍 العنوان",
+                    "additionalFields": {
+                      "callback_data": "inq:address"
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "\t💰 سعر الكشف",
+                    "additionalFields": {
+                      "callback_data": "inq:price"
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "\t🕐 مواعيد العمل",
+                    "additionalFields": {
+                      "callback_data": "inq:hours"
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "\t🔙 القايمة الرئيسية",
+                    "additionalFields": {
+                      "callback_data": "menu:main"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        -1552,
+        -752
+      ],
+      "id": "6673c807-ebd8-4b60-8e7c-8cc3f45c3f84",
+      "name": "Send a text message2",
+      "webhookId": "bd1bdf9d-3f31-4603-a6d2-4c7b045f5d6c",
+      "credentials": {
+        "telegramApi": {
+          "id": "FqS3NOckwMrJSV8b",
+          "name": "Telegram account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const names = ['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];\nconst now = new Date(new Date().toLocaleString('en-US', { timeZone: 'Africa/Cairo' }));\nconst days = [];\n\nfor (let i = 0; i < 14 && days.length < 6; i++) {\n  const d = new Date(now);\n  d.setDate(now.getDate() + i);\n  if (d.getDay() === 5 || d.getDay() === 6) continue; // الجمعة والسبت إجازة\n  const y = d.getFullYear();\n  const m = String(d.getMonth() + 1).padStart(2, '0');\n  const day = String(d.getDate()).padStart(2, '0');\n  days.push({ label: `${names[d.getDay()]} ${day}/${m}`, data: `date:${y}-${m}-${day}` });\n}\n\nreturn [{ json: { chat_id: $json.callback_query.message.chat.id, days } }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1552,
+        -896
+      ],
+      "id": "8913e3a6-2955-41e8-8664-8e385b7d9cbb",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "8b5cad90-fc0a-4198-b666-ce7ee413ff17",
+              "name": "date",
+              "value": "={{ $json.callback_query.data.replace('date:', '') }}",
+              "type": "string"
+            },
+            {
+              "id": "41d6ad9c-3e3b-4478-b79f-8b4e393172cd",
+              "name": "chat_id",
+              "value": "={{ $('Telegram Trigger').item.json.callback_query.from.id }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1568,
+        -608
+      ],
+      "id": "e2017f5b-080c-4c29-aa1d-ba0bf2c283b3",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "calendar": {
+          "__rl": true,
+          "value": "4f36236276dd093fc788bcbcbcc11f4d3c3d7bac1b18e7ff70331e22a0e91401@group.calendar.google.com",
+          "mode": "list",
+          "cachedResultName": "Clinic Bookings"
+        },
+        "returnAll": true,
+        "timeMin": "={{ DateTime.fromISO($json.date, { zone: 'Africa/Cairo' }).set({ hour: 9 }).toISO() }}",
+        "timeMax": "={{ DateTime.fromISO($json.date, { zone: 'Africa/Cairo' }).set({ hour: 15 }).toISO() }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleCalendar",
+      "typeVersion": 1.3,
+      "position": [
+        -1344,
+        -608
+      ],
+      "id": "18e0a6e2-618a-4a5d-8853-144296cd33b5",
+      "name": "Get many events",
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "pVZ1BUJjwThkkkb6",
+          "name": "Google Calendar account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const { date, chat_id } = $('Edit Fields').first().json;\n\n// الحجوزات اللي رجعت من Calendar (لو اليوم فاضي بيرجع item فاضي، فبنفلتره)\nconst booked = $input.all()\n  .map(i => i.json)\n  .filter(e => e.start && e.start.dateTime && e.end && e.end.dateTime)\n  .map(e => ({\n    start: DateTime.fromISO(e.start.dateTime),\n    end: DateTime.fromISO(e.end.dateTime),\n  }));\n\nconst OPEN_HOUR = 9;    // بداية الدوام\nconst CLOSE_HOUR = 15;  // نهاية الدوام\nconst SLOT_MIN = 20;    // مدة الكشف بالدقايق\n\nconst day = DateTime.fromISO(date, { zone: 'Africa/Cairo' });\nconst now = DateTime.now().setZone('Africa/Cairo');\nconst closeTime = day.set({ hour: CLOSE_HOUR, minute: 0, second: 0, millisecond: 0 });\n\nconst slots = [];\nlet start = day.set({ hour: OPEN_HOUR, minute: 0, second: 0, millisecond: 0 });\n\nwhile (start.plus({ minutes: SLOT_MIN }) <= closeTime) {\n  const end = start.plus({ minutes: SLOT_MIN });\n  const isPast = start <= now;\n  const isBusy = booked.some(b => b.start < end && b.end > start);\n\n  if (!isPast && !isBusy) {\n    slots.push({\n      label: start.toFormat('HH:mm'),\n      data: 'slot:' + start.toFormat(\"yyyy-MM-dd'T'HH:mm\"),\n    });\n  }\n  start = end;\n}\n\nconst rows = [];\nfor (let i = 0; i < slots.length; i += 3) {\n  rows.push(slots.slice(i, i + 3).map(s => ({ text: s.label, callback_data: s.data })));\n}\nrows.push([{ text: '🔙 رجوع للأيام', callback_data: 'menu:book' }]);\n\nconst text = slots.length\n  ? `المواعيد المتاحة يوم ${date} 👇`\n  : 'للأسف مفيش مواعيد متاحة في اليوم ده 😔 اختار يوم تاني';\n\nreturn [{ json: { chat_id, date, slots, text, reply_markup: { inline_keyboard: rows } } }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1152,
+        -608
+      ],
+      "id": "37b1eaa7-b8c6-409c-bb51-fda31829fb6a",
+      "name": "Code in JavaScript1"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.telegram.org/bot8776165878:AAF5KTCOwCq9H1SPJs6kO-0OFfh37kFotdI/sendMessage",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ { chat_id: $json.chat_id, text: $json.text, reply_markup: $json.reply_markup } }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        -960,
+        -608
+      ],
+      "id": "b452634b-3ac6-4255-8cc4-bbec978bbefe",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.telegram.org/bot8776165878:AAF5KTCOwCq9H1SPJs6kO-0OFfh37kFotdI/sendMessage",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ { chat_id: $json.callback_query.message.chat.id, text: 'اخترت الموعد ' + $json.callback_query.data.replace('slot:', '').replace('T', ' ') + ' ✅\\nاكتب اسمك الثلاثي وسنك في رسالة واحدة\\nمثال: محمد علاء إبراهيم 25', reply_markup: { force_reply: true } } }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        -1568,
+        -432
+      ],
+      "id": "e1190057-0b7a-429b-a28c-19608804ce48",
+      "name": "HTTP Request1"
+    },
+    {
+      "parameters": {
+        "jsCode": "const msg = $json.message;\nconst text = (msg.text || '').trim();\nconst question = msg.reply_to_message.text;\n\n// تحويل الأرقام العربية (٠-٩) لأرقام إنجليزية\nconst toEn = s => s.replace(/[٠-٩]/g, d => '٠١٢٣٤٥٦٧٨٩'.indexOf(d));\nconst clean = toEn(text);\n\n// الموعد من نص السؤال\nconst m = question.match(/(\\d{4}-\\d{2}-\\d{2}) (\\d{2}:\\d{2})/);\n\n// الاسم والسن: آخر رقم في الرسالة هو السن\nconst p = clean.match(/^(.+?)\\s+(\\d{1,3})$/);\n\nconst age = p ? Number(p[2]) : null;\nconst name = p ? p[1].trim() : null;\nconst words = name ? name.split(/\\s+/).filter(Boolean).length : 0;\nconst valid = !!(m && p && words >= 3 && age >= 1 && age <= 110);\n\nreturn [{\n  json: {\n    chat_id: msg.chat.id,\n    valid,\n    name,\n    age,\n    date: m ? m[1] : null,\n    time: m ? m[2] : null,\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1568,
+        -272
+      ],
+      "id": "2f7ee9c2-8ff0-442d-855b-0ff6ba187941",
+      "name": "Code in JavaScript2"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "509edb5b-6fcc-4e0e-b35e-99dc752cd242",
+              "leftValue": "={{ $json.valid }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -1344,
+        -272
+      ],
+      "id": "08ab6ed7-e76b-4030-99f5-8d03fff9c7a9",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.telegram.org/bot8776165878:AAF5KTCOwCq9H1SPJs6kO-0OFfh37kFotdI/sendMessage",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ { chat_id: $json.chat_id, text: 'اخترت الموعد ' + $json.date + ' ' + $json.time + ' ✅\\nالبيانات مش واضحة ! اكتب اسمك الثلاثي وسنك في رسالة واحدة\\nمثال: محمد علاء إبراهيم 25', reply_markup: { force_reply: true } } }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        -1136,
+        -208
+      ],
+      "id": "a2eb6f17-baeb-4b86-a604-6394ae786b4b",
+      "name": "HTTP Request2"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.telegram.org/bot8776165878:AAF5KTCOwCq9H1SPJs6kO-0OFfh37kFotdI/sendMessage",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ { chat_id: $json.chat_id, text: 'ملخص الحجز 📋\\nالاسم: ' + $json.name + '\\nالسن: ' + $json.age + '\\nالموعد: ' + $json.date + ' ' + $json.time + '\\nراجع البيانات واضغط تأكيد 👇', reply_markup: { inline_keyboard: [[{ text: '✅ تأكيد الحجز', callback_data: 'confirm' }], [{ text: '❌ إلغاء', callback_data: 'menu:book' }]] } } }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        -1136,
+        -352
+      ],
+      "id": "d4024f81-a0bc-4c30-8051-1094efb18bd6",
+      "name": "HTTP Request3"
+    },
+    {
+      "parameters": {
+        "jsCode": "const cq = $json.callback_query;\nconst text = cq.message.text || '';\n\nconst name = ((text.match(/الاسم:\\s*(.+)/) || [])[1] || '').trim();\nconst age = Number((text.match(/السن:\\s*(\\d+)/) || [])[1]);\nconst dt = text.match(/الموعد:\\s*(\\d{4}-\\d{2}-\\d{2}) (\\d{2}:\\d{2})/);\n\nconst date = dt ? dt[1] : null;\nconst time = dt ? dt[2] : null;\n\nlet start = null, end = null;\nif (date && time) {\n  const s = DateTime.fromISO(`${date}T${time}`, { zone: 'Africa/Cairo' });\n  start = s.toISO();\n  end = s.plus({ minutes: 20 }).toISO();\n}\n\nreturn [{\n  json: {\n    chat_id: cq.message.chat.id,\n    message_id: cq.message.message_id,\n    name,\n    age,\n    date,\n    time,\n    start,\n    end,\n    valid: !!(name && age && start),\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1568,
+        -16
+      ],
+      "id": "1d2c1e92-9537-4d6b-b411-1568ece63650",
+      "name": "Code in JavaScript3"
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "calendar": {
+          "__rl": true,
+          "value": "4f36236276dd093fc788bcbcbcc11f4d3c3d7bac1b18e7ff70331e22a0e91401@group.calendar.google.com",
+          "mode": "list",
+          "cachedResultName": "Clinic Bookings"
+        },
+        "returnAll": true,
+        "timeMin": "={{ $json.start }}",
+        "timeMax": "={{ $json.end }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleCalendar",
+      "typeVersion": 1.3,
+      "position": [
+        -1360,
+        -16
+      ],
+      "id": "74d0f475-3a68-4d40-aaba-355703bcd936",
+      "name": "Get many events1",
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "pVZ1BUJjwThkkkb6",
+          "name": "Google Calendar account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "beea43e8-29b8-4833-8309-a56a7e8c107c",
+              "leftValue": "={{ $input.all().filter(i => i.json.id).length }}",
+              "rightValue": "0",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -1136,
+        -16
+      ],
+      "id": "142f66ca-8ae1-4ee0-b43c-db7090a1f38f",
+      "name": "If1"
+    },
+    {
+      "parameters": {
+        "calendar": {
+          "__rl": true,
+          "value": "4f36236276dd093fc788bcbcbcc11f4d3c3d7bac1b18e7ff70331e22a0e91401@group.calendar.google.com",
+          "mode": "list",
+          "cachedResultName": "Clinic Bookings"
+        },
+        "start": "={{ $('Code in JavaScript3').item.json.start }}",
+        "end": "={{ $('Code in JavaScript3').item.json.end }}",
+        "additionalFields": {
+          "description": "=السن: {{ $('Code in JavaScript3').first().json.age }} | chat_id: {{ $('Code in JavaScript3').first().json.chat_id }}",
+          "summary": "={{ $('Code in JavaScript3').item.json.name }}"
+        }
+      },
+      "type": "n8n-nodes-base.googleCalendar",
+      "typeVersion": 1.3,
+      "position": [
+        -928,
+        -112
+      ],
+      "id": "7f38d067-1d57-4f48-92d6-254a487b9323",
+      "name": "Create an event1",
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "pVZ1BUJjwThkkkb6",
+          "name": "Google Calendar account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.telegram.org/bot8776165878:AAF5KTCOwCq9H1SPJs6kO-0OFfh37kFotdI/sendMessage",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ { chat_id: $('Code in JavaScript3').first().json.chat_id, text: 'تم تأكيد حجزك ✅\\nالاسم: ' + $('Code in JavaScript3').first().json.name + '\\nالموعد: ' + $('Code in JavaScript3').first().json.date + ' الساعة ' + $('Code in JavaScript3').first().json.time + '\\nنراك قريبًا 🙏' } }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        -720,
+        -112
+      ],
+      "id": "5fffe95b-31da-45f5-9553-49e22ad4c71f",
+      "name": "HTTP Request4"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.telegram.org/bot8776165878:AAF5KTCOwCq9H1SPJs6kO-0OFfh37kFotdI/sendMessage",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ { chat_id: $('Code in JavaScript3').first().json.chat_id, text: 'للأسف الموعد ده اتحجز قبل ما تأكد 😔\\nاختار موعد تاني من فضلك', reply_markup: { inline_keyboard: [[{ text: '📅 اختار موعد تاني', callback_data: 'menu:book' }]] } } }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        -928,
+        80
+      ],
+      "id": "07c5d208-c8fa-48f4-b642-9c073c73ae6a",
+      "name": "HTTP Request5"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json.callback_query.message.chat.id }}",
+        "text": "📍 عنوان العيادة: (https://maps.app.goo.gl/Kdkr8V78cQeywi527)",
+        "replyMarkup": "forceReply",
+        "forceReply": {},
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        -1568,
+        144
+      ],
+      "id": "aa7d8d81-c6d9-4723-aef4-e6ee2129c484",
+      "name": "Send a text message3",
+      "webhookId": "6b634477-eb21-483f-8fdd-7669664ea7c0",
+      "credentials": {
+        "telegramApi": {
+          "id": "FqS3NOckwMrJSV8b",
+          "name": "Telegram account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json.callback_query.message.chat.id }}",
+        "text": "💰 سعر الكشف: (250 جنيه)",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        -1568,
+        288
+      ],
+      "id": "73c9a7d5-5d3a-4838-b074-5b8f510dbe3b",
+      "name": "Send a text message4",
+      "webhookId": "742f5532-a6b8-46ee-8c77-389eccef6cc4",
+      "credentials": {
+        "telegramApi": {
+          "id": "FqS3NOckwMrJSV8b",
+          "name": "Telegram account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json.callback_query.message.chat.id }}",
+        "text": "=🕐 مواعيد العمل: من 9 الصبح لـ 3 العصر الجمعة والسبت إجازة",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        -1584,
+        416
+      ],
+      "id": "72839283-dc05-423b-9fd2-c915ae3283a8",
+      "name": "Send a text message5",
+      "webhookId": "fe55da4f-8353-4847-92d0-78ff15d43159",
+      "credentials": {
+        "telegramApi": {
+          "id": "FqS3NOckwMrJSV8b",
+          "name": "Telegram account 2"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Telegram Trigger": {
+      "main": [
+        [
+          {
+            "node": "Switch1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a text message": {
+      "main": [
+        []
+      ]
+    },
+    "Switch1": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send a text message2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Code in JavaScript2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Code in JavaScript3",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send a text message3",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send a text message4",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send a text message5",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send a text message",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send a text message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "Send a text message1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Get many events",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get many events": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript1": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript2": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request3",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "HTTP Request2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript3": {
+      "main": [
+        [
+          {
+            "node": "Get many events1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get many events1": {
+      "main": [
+        [
+          {
+            "node": "If1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If1": {
+      "main": [
+        [
+          {
+            "node": "Create an event1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "HTTP Request5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create an event1": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a text message5": {
+      "main": [
+        []
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "cd1b65bc-c730-43a8-8fa6-273aa1c69007",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "f3876d930de1f25f2ccfc4f4487060a49465b4e9d25a6238f06e835c20fd16e4"
+  },
+  "nodeGroups": [],
+  "id": "VaL0iS5bt3ApfPNl",
+  "tags": []
+}
